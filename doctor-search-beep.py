@@ -47,7 +47,7 @@ def get_data(beeps):
         "ALL": {
             "url": "https://ipr.esveikata.lt/api/searches/appointments/times?"
             "municipalityId=66&professionCode=221228&healthcareServiceId=91&page=0&size=50",
-            "long_beep": SHORT_BEEP_TMO_S
+            "long_beep_s": 0.5
         }
     }
 
@@ -59,8 +59,8 @@ def get_data(beeps):
             if json['data']:
                 print("FOUND")
                 beep = LONG_BEEP_TMO_S
-                if 'long_beep' in v.keys():
-                    beep = v['long_beep']
+                if 'long_beep_s' in v.keys():
+                    beep = v['long_beep_s']
                 beeps[k] = beep
             else:
                 print("DID NOT FIND ANY")
