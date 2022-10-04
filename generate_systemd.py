@@ -10,13 +10,14 @@ PWD = os.getcwd()
 env = input("Env folder? (used to execute service): ")
 
 env_dir = os.path.join(PWD, env, "bin", "python")
+script_dir = os.path.join(PWD, "doctor-search-beep.py")
 
 template = f"""[Unit]
 Description=This service periodically checks if there are free apointments for doctors
 After=network-online.target
 
 [Service]
-ExecStart={env_dir} search_doctor.py
+ExecStart={env_dir} {script_dir}
 Restart=always
 RestartSec=30min
 
