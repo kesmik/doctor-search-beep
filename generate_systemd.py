@@ -1,6 +1,10 @@
+import platform
 import os
+import shutil
 
 SYSTEM_D_FILE = "doctor-search-beep.service"
+SYSTEM_D_SERVICES_FILE = os.path.join("/", "etc", "systemd", "system", SYSTEM_D_FILE)
+
 PWD = os.getcwd()
 
 env = input("Env folder? (used to execute service): ")
@@ -22,3 +26,10 @@ WantedBy=multi-user.target
 
 with open(SYSTEM_D_FILE, "w") as f:
     f.write(template)
+
+if platform.system() == 'Linux':
+    move = input("Move files to systemd directory? [y/n] (y): ")
+    if move.upper() == 'Y':
+        shutil.move(SYSTEM_D_FILE, SYSTEM_D_SERVICES_FILE)
+else:
+    print("File created but not moved because system is ", platform.system())
