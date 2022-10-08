@@ -1,6 +1,8 @@
 import platform
 import io
 from time import sleep
+
+from LaFrite import LaFriteDetector
 if platform.system() == 'Linux':
     import gpiod
 
@@ -9,6 +11,7 @@ if platform.system() == 'Linux':
 
 class BeepGPIO():
     def __init__(self) -> None:
+        super().__init__()
         self.hw_has_gpio = False
 
     def beep_on(self):
@@ -45,29 +48,22 @@ class BeepGPIO():
             self.beep_off()
 
 
-class LaFriteBeepGPIO(BeepGPIO):
+class LaFriteBeepGPIO(BeepGPIO, LaFriteDetector):
     def __init__(self) -> None:
         super().__init__()
 
-        if self.check_if_lafrite() == True:
-            # PIN40 on pin header
-            self.gpiochip = gpiod.chip("gpiochip1")
-            self.line = self.gpiochip.get_line(83)
+        if self.im_lafrite == True:
+            try:
+                # PIN40 on pin header
+                self.gpiochip = gpiod.chip("gpiochip1")
+                self.line = self.gpiochip.get_line(83)
 
-            self.req_cfg = gpiod.line_request()
-            self.req_cfg.consumer = "LaFrite Beeper"
-            self.req_cfg.request_type = gpiod.line_request.DIRECTION_OUTPUT
-            self.line.request(self.req_cfg)
-
-    def check_if_lafrite(self):
-        self.hw_has_gpio = False
-
-        try:
-            with io.open('/sys/firmware/devicetree/base/model', 'r') as m:
-                if 'Libre Computer AML-S805X-AC'.lower() in m.read().lower():
-                    self.hw_has_gpio = True
-        except Exception:
-            pass
-
-        print("Computer == lafrite: ", self.hw_has_gpio)
-        return self.hw_has_gpio
+                self.req_cfg = gpiod.line_request()
+                self.req_cfg.consumer = "LaFrite Beeper"
+                self.req_cfg.request_type = gpiod.line_request.DIRECTION_OUTPUT
+                self.line.request(self.req_cfg)
+                self.hw_has_gpio = True
+            except:
+                self.hw_has_gpio = False
+                print(f"Failed to initialize {self.__class__.__name__}")
+                pass
