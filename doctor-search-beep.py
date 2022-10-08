@@ -12,28 +12,18 @@ beep_lock = Lock()
 
 
 def beeper(tmo_s):
-    tick_s = 0.05
     beep_lock.acquire()
     try:
         beep_gpio = LaFriteBeepGPIO()
-        # small delay between beeps
+        # small delay between beeps if multiple requests handling
         sleep(0.2)
-        beep_gpio.beep_on()
-        while True:
-            if tmo_s > 0:
-                tmo_s -= tick_s
-                sleep(tick_s)
-            else:
-                break
-
-            # handle exit of program
-            if exit_evt.is_set():
-                print("BEEPER EXIT")
-                break
+        beep_gpio.beep(tmo_s)
+        # handle exit of program
+        if exit_evt.is_set():
+            print("BEEPER EXIT")
     except Exception as e:
         print("Beeper failed: ", e)
     finally:
-        beep_gpio.beep_off()
         beep_lock.release()
 
 
