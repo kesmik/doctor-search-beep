@@ -1,7 +1,7 @@
 import io
 
 
-class LaFrite():
+class LaFriteDetector():
     def __init__(self) -> None:
         super().__init__()
         self.im_lafrite = False
