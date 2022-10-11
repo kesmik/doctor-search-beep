@@ -5,8 +5,8 @@ This repository is for educational purposes only.
 This repository contains an example script that could help you to find free
 slots for doctor apointment in Lithuania.
 
-This script periodically fetches data from website and beeps if apointment entries
-are found
+This script periodically fetches data from website and notifies if apointment
+entries are found
 
 Initially it is intended to run on [AML-S805X-AC (La Frite)](https://libre.computer/products/s805x/)
 to not waste electricity but can be easily modified to run on any HW

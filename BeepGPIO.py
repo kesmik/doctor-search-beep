@@ -53,6 +53,7 @@ class LaFriteBeepGPIO(BeepGPIO, LaFriteDetector):
         super().__init__()
 
         if self.im_lafrite == True:
+            print("LaFrite GPIO found")
             try:
                 # PIN40 on pin header
                 self.gpiochip = gpiod.chip("gpiochip1")
