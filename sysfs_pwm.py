@@ -43,8 +43,8 @@ class SysfsPWM:
         self.unexport()
 
         self.export()
-        self.set_period(self.pwm_period_ns)
         self.set_duty_cycle(0)
+        self.set_period(self.pwm_period_ns)
 
     @staticmethod
     def par_w(path, value):
